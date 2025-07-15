@@ -15,24 +15,41 @@ datasource db {
 }
 
 model User {
-  id        Int       @id @default(autoincrement())
+  id        Int        @id @default(autoincrement())
   name      String
-  email     String    @unique
+  email     String     @unique
   password  String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @default(now()) @updatedAt //
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @default(now()) @updatedAt //
   Biodata   Biodata[]
+  UserRole  UserRole[]
 }
 
-  model Biodata {
-    id            Int      @id @default(autoincrement())
-    name          String
-    alamat        String
-    tanggal_lahir DateTime
-    jenis_kelamin String
-    createdAt     DateTime @default(now())
-    updatedAt     DateTime @default(now()) @updatedAt //
+model Biodata {
+  id            Int      @id @default(autoincrement())
+  name          String
+  alamat        String
+  tanggal_lahir DateTime
+  jenis_kelamin String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @default(now()) @updatedAt //
 
-    id_user Int
-    pemilik User @relation(fields: [id_user], references: [id])
-  }
+  id_user Int  @unique
+  user    User @relation(fields: [id_user], references: [id])
+}
+
+model UserRole {
+  id      Int  @id @default(autoincrement())
+  id_user Int
+  user    User @relation(fields: [id_user], references: [id])
+  id_role Int
+  role    Role @relation(fields: [id_role], references: [id])
+}
+
+model Role {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+
+  users UserRole[]
+
+}
