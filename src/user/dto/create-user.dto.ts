@@ -6,6 +6,9 @@ export class CreateUserDto {
     @IsEmail({}, { message: 'email tidak boleh kosong' })
     email: string;
 
+    @IsNotEmpty({ message: 'usernme tidak boleh kosong' })
+    username: string;
+
     @IsNotEmpty({ message: 'password tidak boleh kosong' })
     @MinLength(6, { message: 'password minimal 6' })
     password: string;

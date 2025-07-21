@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Get, Post, Put, Param } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, Post, Put, Param, Delete } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
@@ -16,10 +16,16 @@ export class UserController {
         return this.userService.getall()
     }
 
+    @Get(':id')
+    find(@Param('id') id: number) {
+        return this.userService.findById(id);
+    }
+
     @Put(':id')
     updated(@Param('id') id: number, @Body() data: updateBiodataDto) {
         return this.userService.update(Number(id), data)
     }
+
 
     @Post()
     async create(@Body() CreateUserDto: CreateUserDto) {
@@ -33,6 +39,11 @@ export class UserController {
 
 
         return this.userService.createUser(CreateUserDto);
+    }
+
+    @Delete(':id')
+    delete(@Param('id') id: number) {
+        return this.userService.destroy(Number(id))
     }
 
 }

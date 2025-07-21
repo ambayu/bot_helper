@@ -18,38 +18,61 @@ model User {
   id        Int        @id @default(autoincrement())
   name      String
   email     String     @unique
+  username  String     @unique
   password  String
   createdAt DateTime   @default(now())
   updatedAt DateTime   @default(now()) @updatedAt //
+  deletedAt DateTime? // <== Tambahkan ini
   Biodata   Biodata[]
   UserRole  UserRole[]
 }
 
 model Biodata {
-  id            Int      @id @default(autoincrement())
+  id            Int       @id @default(autoincrement())
   name          String
   alamat        String
   tanggal_lahir DateTime
   jenis_kelamin String
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @default(now()) @updatedAt //
-
-  id_user Int  @unique
-  user    User @relation(fields: [id_user], references: [id])
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @default(now()) @updatedAt //
+  deletedAt     DateTime? // <== Tambahkan ini
+  id_user       Int       @unique
+  user          User      @relation(fields: [id_user], references: [id], onDelete: Cascade)
 }
 
 model UserRole {
-  id      Int  @id @default(autoincrement())
-  id_user Int
-  user    User @relation(fields: [id_user], references: [id])
-  id_role Int
-  role    Role @relation(fields: [id_role], references: [id])
+  id        Int      @id @default(autoincrement())
+  id_user   Int
+  user      User     @relation(fields: [id_user], references: [id], onDelete: Cascade)
+  id_role   Int
+  role      Role     @relation(fields: [id_role], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 }
 
 model Role {
-  id   Int    @id @default(autoincrement())
-  name String @unique
+  id             Int              @id @default(autoincrement())
+  name           String           @unique
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @default(now()) @updatedAt
+  users          UserRole[]
+  RolePermission RolePermission[]
+}
 
-  users UserRole[]
+model Permission {
+  id        Int              @id @default(autoincrement())
+  name      String           @unique
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @default(now()) @updatedAt
+  roles     RolePermission[]
+}
 
+model RolePermission {
+  id            Int        @id @default(autoincrement())
+  id_role       Int
+  id_permission Int
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @default(now()) @updatedAt
+  role          Role       @relation(fields: [id_role], references: [id], onDelete: Cascade)
+  permission    Permission @relation(fields: [id_permission], references: [id], onDelete: Cascade)
 }
