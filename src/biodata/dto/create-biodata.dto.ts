@@ -2,6 +2,7 @@ import { Type } from 'class-transformer';
 import { IsEmail, IsNotEmpty, MinLength, IsDate } from 'class-validator';
 export class createbiodataDto {
 
+    photo: string;
 
     @IsNotEmpty({ message: "name tidak boleh kosong" })
     name: string;
@@ -18,7 +19,7 @@ export class createbiodataDto {
     jenis_kelamin: string;
 
     @IsNotEmpty({ message: 'id_user tidak boleh kosong' })
-    @Type(() => Number) 
+    @Type(() => Number)
     id_user: number;
 
 

@@ -25,6 +25,7 @@ export class BiodataService {
                 tanggal_lahir: data.tanggal_lahir,
                 jenis_kelamin: data.jenis_kelamin,
                 id_user: data.id_user,
+                photo: data.photo
             },
         })
 

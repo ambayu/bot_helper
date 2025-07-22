@@ -30,6 +30,7 @@ model Biodata {
   id            Int       @id @default(autoincrement())
   name          String
   alamat        String
+  photo         String
   tanggal_lahir DateTime
   jenis_kelamin String
   createdAt     DateTime  @default(now())
